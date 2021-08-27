@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>ush | simple url shortener</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="team" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/tooplate-style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+    <script>
+        function shortener() {
+            _url = document.getElementById("url").value;
+            if (_url != "") {
+                $.ajax({
+                    url: "shortit",
+                    type: "post",
+                    data: {
+                        url: _url
+                    },
+                    success: function(response) {
+                        var jsonValue = JSON.parse(response);
+                        if (jsonValue["error"] === false) {
+                            alert("shortened url: http://127.0.0.1:8080/u/" + jsonValue["url"]);
+                        } else if (jsonValue["error"] === true && jsonValue["message"] == "database error") {
+                            alert("can't register your account, database error...");
+                        } else if (jsonValue["error"] === true && jsonValue["message"] == "not loggedin") {
+                            alert("login to your account to shorten url");
+                        } else if (jsonValue["error"] === true && jsonValue["message"] == "not valid url") {
+                            alert("url seems not be valid");
+                        } else {
+                            alert("an Unknown error occured!");
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        }
+    </script>
+    <section class="preloader">
+        <div class="spinner">
+
+            <span class="spinner-rotate"></span>
+
+        </div>
+    </section>
+
+
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+
+            <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                    </button>
+
+                <a href="" class="navbar-brand">USH</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#home" class="smoothScroll">Home</a></li>
+                    <li><a href="#feature" class="smoothScroll">Pricing</a></li>
+                    <li><a href="#about" class="smoothScroll">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="https://geek-hub.ir">support@geek-hub.ir</span></a></li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="home" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-offset-3 col-md-6 col-sm-12">
+                    <div class="home-info">
+                        <h3>Shorten Your URLs</h3>
+                        <div class="online-form">
+                            <input type="text" id="url" class="form-control" placeholder="Enter any url" required="">
+                            <button type="button" onclick="shortener();" class="form-control">Shorten It</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.stellar.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/smoothscroll.js"></script>
+    <script src="js/custom.js"></script>
+
+</body>
+
+</html>
